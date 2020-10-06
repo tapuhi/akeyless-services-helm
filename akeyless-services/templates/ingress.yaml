@@ -1,6 +1,9 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "akeyless-services.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
+{{- $webUiPort := .Values.service.portWebUi -}}
+{{- $confPort := .Values.service.portConfigureApp -}}
+{{- $curlPort := .Values.service.portCurlProxy -}}
+{{- $hvpPort := .Values.service.portHvp -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
 {{- else -}}
@@ -35,7 +38,34 @@ spec:
           - path: {{ . }}
             backend:
               serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
+              servicePort: {{ $webUiPort }}
+        {{- end }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ . }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $confPort }}
+        {{- end }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ . }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $curlPort }}
+        {{- end }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ . }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $hvpPort }}
         {{- end }}
   {{- end }}
 {{- end }}

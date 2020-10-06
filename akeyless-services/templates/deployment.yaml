@@ -16,6 +16,25 @@ spec:
     spec:
       volumes:
       - name: akeyless-conf
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default (printf "%s-akeyless-services" (include "akeyless-services.fullname" .)) }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+      - name: akeyless-profile
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default (printf "%s-akeyless-services" (include "akeyless-services.fullname" .)) }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+
+      # volumes:
+      # - name: akeyless-conf
+      #   emptyDir: {}
+      # - name: akeyless-profile
+      #   emptyDir: {}
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -41,7 +60,8 @@ spec:
           volumeMounts:
           - mountPath: /var/akeyless/conf
             name: akeyless-conf
-
+          # - mountPath: /root/.akeyless
+          #   name: akeyless-profile
               # - name: http
             #   containerPort: 80
             #   protocol: TCP
