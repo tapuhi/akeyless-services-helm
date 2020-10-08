@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "akeyless-services.fullname" . }}
+  labels:
+    {{- include "akeyless-services.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "akeyless-services.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "akeyless-services.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "akeyless-services.selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+      {{- range .Values.persistence.volumes }}
+      - name: {{ .name | title | lower }}
+        persistentVolumeClaim:
+          claimName: {{ printf "%s-%s" $.Release.Name .name | title | lower }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.containerName }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.portWebUi | required }}
+              name: web-ui
+            - containerPort: {{ .Values.service.portConfigureApp | required }}
+              name: configure-app
+            - containerPort: {{ .Values.service.portCurlProxy | required }}
+              name: curl-proxy
+            - containerPort: {{ .Values.service.portHvp | required }}
+              name: hpv
+          volumeMounts:
+          {{- range .Values.persistence.volumes }}
+            - name: {{ .name | title | lower }}
+              mountPath: {{ .hostPath | quote }}
+          {{- end }}

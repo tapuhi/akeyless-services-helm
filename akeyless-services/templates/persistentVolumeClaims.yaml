@@ -1,0 +1,17 @@
+{{- range .Values.persistence.volumes }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ printf "%s-%s" $.Release.Name .name | title | lower }}
+  labels:
+    app: {{ $.Values.containerName }}
+    chart: {{ $.Chart.Name }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: {{ .storageClassName | required }}
+  resources:
+    requests:
+      storage: {{ .size | required }}
+{{- end }}

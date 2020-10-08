@@ -1,6 +1,6 @@
 apiVersion: v2
 name: akeyless-services
-description: A Helm chart for Kubernetes thst deploys akeyless-services
+description: A Helm chart for Kubernetes that deploys akeyless-services
 
 # A chart can be either an 'application' or a 'library' chart.
 #

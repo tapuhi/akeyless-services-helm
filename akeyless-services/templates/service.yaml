@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -5,22 +6,22 @@ metadata:
   labels:
     {{- include "akeyless-services.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.service.type | required }}
   ports:
-    - port: {{ .Values.service.portWebUi }}
-      targetPort: web-ui
+    - port: {{ .Values.service.portWebUi | required }}
+      targetPort: {{ .Values.service.portWebUi | required }}
       protocol: TCP
       name: web-ui
-    - port: {{ .Values.service.portConfigureApp}}
-      targetPort: configure-app
+    - port: {{ .Values.service.portConfigureApp | required }}
+      targetPort: {{ .Values.service.portConfigureApp | required }}
       protocol: TCP
       name: configure-app
-    - port: {{ .Values.service.portCurlProxy }}
-      targetPort: curl-proxy
+    - port: {{ .Values.service.portCurlProxy | required }}
+      targetPort: {{ .Values.service.portCurlProxy | required }}
       protocol: TCP
       name: curl-proxy
-    - port: {{ .Values.service.portHvp }}
-      targetPort: hpv
+    - port: {{ .Values.service.portHvp | required }}
+      targetPort: {{ .Values.service.portHvp | required }}
       protocol: TCP
       name: hpv
   selector:
