@@ -10,11 +10,22 @@ image:
 containerName: "api-gateway"
 
 service:
+  # Remove the {} and add any needed annotations regarding your LoadBalancer implementation
+  annotations: {}
   type: LoadBalancer
-  portWebUi: 18888
-  portConfigureApp: 8000
-  portCurlProxy: 8080
-  portHvp: 8200
+  ports:
+    - name: web-ui
+      port: 18888
+      protocol: TCP
+    - name: configure-app
+      port: 8000
+      protocol: TCP
+    - name: curl-proxy
+      port: 8080
+      protocol: TCP
+    - name: hvp
+      port: 8200
+      protocol: TCP
 
 # Akeyless requires data persistence to be shared within all pods in the cluster
 # Currently only ReadWriteMany is supported
@@ -46,3 +57,11 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+HPA:
+  # Set the below to false in case you do not want to add Horizontal Pod AutoScaling to the StatefulSet (not recommended)
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 14
+  cpuAvgUtil: 50
+  memAvgUtil: 50
