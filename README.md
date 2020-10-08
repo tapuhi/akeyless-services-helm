@@ -1,6 +1,6 @@
 # akeyless-services-helm
 
-This repo holds a helm chart for deploying API Gateway in a kubernetes.  
+This repo holds a helm chart for deploying API Gateway in a kubernetes cluster.  
 
 ## Preparation
 
