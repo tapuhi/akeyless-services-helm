@@ -5,24 +5,16 @@ metadata:
   name: {{ include "akeyless-services.fullname" . }}
   labels:
     {{- include "akeyless-services.labels" . | nindent 4 }}
+  annotations:
+  {{- toYaml .Values.service.annotations | nindent 4 }}
 spec:
   type: {{ required "A valid .Values.service.type entry required!" .Values.service.type }}
   ports:
-    - port: {{ required "A valid .Values.service.portWebUi entry required!" .Values.service.portWebUi }}
-      targetPort: {{ required "A valid .Values.service.portWebUi entry required!" .Values.service.portWebUi }}
-      protocol: TCP
-      name: web-ui
-    - port: {{ required "A valid .Values.service.portConfigureApp entry required!" .Values.service.portConfigureApp }}
-      targetPort: {{ required "A valid .Values.service.portConfigureApp entry required!" .Values.service.portConfigureApp }}
-      protocol: TCP
-      name: configure-app
-    - port: {{ required "A valid .Values.service.portCurlProxy entry required!" .Values.service.portCurlProxy }}
-      targetPort: {{ required "A valid .Values.service.portCurlProxy entry required!" .Values.service.portCurlProxy }}
-      protocol: TCP
-      name: curl-proxy
-    - port: {{ required "A valid .Values.service.portHvp entry required!" .Values.service.portHvp }}
-      targetPort: {{ required "A valid .Values.service.portHvp entry required!" .Values.service.portHvp }}
-      protocol: TCP
-      name: hpv
+    {{- range .Values.service.ports }}
+    - port: {{ .port }}
+      targetPort: {{ .port }}
+      protocol: {{ .protocol }}
+      name: {{ .name }}
+    {{- end }}
   selector:
     {{- include "akeyless-services.selectorLabels" . | nindent 4 }}

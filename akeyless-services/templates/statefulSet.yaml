@@ -26,14 +26,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ required "A valid .Values.service.portWebUi entry required!" .Values.service.portWebUi }}
-              name: web-ui
-            - containerPort: {{ required "A valid .Values.service.portConfigureApp entry required!" .Values.service.portConfigureApp }}
-              name: configure-app
-            - containerPort: {{ required "A valid .Values.service.portCurlProxy entry required!" .Values.service.portCurlProxy }}
-              name: curl-proxy
-            - containerPort: {{ required "A valid .Values.service.portHvp entry required!" .Values.service.portHvp }}
-              name: hpv
+            {{- range .Values.service.ports }}
+            - containerPort: {{ .port }}
+              name: {{ .name }}
+            {{- end }}
           volumeMounts:
           {{- range .Values.persistence.volumes }}
             - name: {{ .name | title | lower }}
