@@ -11,7 +11,7 @@ containerName: "api-gateway"
 
 service:
   type: LoadBalancer
-  portWebUi: 18888  
+  portWebUi: 18888
   portConfigureApp: 8000
   portCurlProxy: 8080
   portHvp: 8200
@@ -26,11 +26,23 @@ persistence:
       storageClassName: efs-sc
       storageClassDriver: efs.csi.aws.com
       size: 2Gi
-      hostPath: /var/akeyless
+      mountPath: /var/akeyless
       fsId: "fs-123abc45"
     - name: akeyless-profiles
       storageClassName: efs-sc
       storageClassDriver: efs.csi.aws.com
       size: 2Gi
-      hostPath: /root/.akeyless
+      mountPath: /root/.akeyless
       fsId: "fs-678def90"
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
