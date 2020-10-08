@@ -10,8 +10,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: {{ .storageClassName | required }}
+  storageClassName: {{ required "A valid .Values.service.storageClassName entry required!" .storageClassName }}
   resources:
     requests:
-      storage: {{ .size | required }}
+      storage: {{ required "A valid .Values.service.size entry required!" .size }}
 {{- end }}

@@ -26,16 +26,18 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.portWebUi | required }}
+            - containerPort: {{ required "A valid .Values.service.portWebUi entry required!" .Values.service.portWebUi }}
               name: web-ui
-            - containerPort: {{ .Values.service.portConfigureApp | required }}
+            - containerPort: {{ required "A valid .Values.service.portConfigureApp entry required!" .Values.service.portConfigureApp }}
               name: configure-app
-            - containerPort: {{ .Values.service.portCurlProxy | required }}
+            - containerPort: {{ required "A valid .Values.service.portCurlProxy entry required!" .Values.service.portCurlProxy }}
               name: curl-proxy
-            - containerPort: {{ .Values.service.portHvp | required }}
+            - containerPort: {{ required "A valid .Values.service.portHvp entry required!" .Values.service.portHvp }}
               name: hpv
           volumeMounts:
           {{- range .Values.persistence.volumes }}
             - name: {{ .name | title | lower }}
-              mountPath: {{ .hostPath | quote }}
+              mountPath: {{ .mountPath | quote }}
           {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

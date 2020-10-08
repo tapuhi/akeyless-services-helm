@@ -6,22 +6,22 @@ metadata:
   labels:
     {{- include "akeyless-services.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type | required }}
+  type: {{ required "A valid .Values.service.type entry required!" .Values.service.type }}
   ports:
-    - port: {{ .Values.service.portWebUi | required }}
-      targetPort: {{ .Values.service.portWebUi | required }}
+    - port: {{ required "A valid .Values.service.portWebUi entry required!" .Values.service.portWebUi }}
+      targetPort: {{ required "A valid .Values.service.portWebUi entry required!" .Values.service.portWebUi }}
       protocol: TCP
       name: web-ui
-    - port: {{ .Values.service.portConfigureApp | required }}
-      targetPort: {{ .Values.service.portConfigureApp | required }}
+    - port: {{ required "A valid .Values.service.portConfigureApp entry required!" .Values.service.portConfigureApp }}
+      targetPort: {{ required "A valid .Values.service.portConfigureApp entry required!" .Values.service.portConfigureApp }}
       protocol: TCP
       name: configure-app
-    - port: {{ .Values.service.portCurlProxy | required }}
-      targetPort: {{ .Values.service.portCurlProxy | required }}
+    - port: {{ required "A valid .Values.service.portCurlProxy entry required!" .Values.service.portCurlProxy }}
+      targetPort: {{ required "A valid .Values.service.portCurlProxy entry required!" .Values.service.portCurlProxy }}
       protocol: TCP
       name: curl-proxy
-    - port: {{ .Values.service.portHvp | required }}
-      targetPort: {{ .Values.service.portHvp | required }}
+    - port: {{ required "A valid .Values.service.portHvp entry required!" .Values.service.portHvp }}
+      targetPort: {{ required "A valid .Values.service.portHvp entry required!" .Values.service.portHvp }}
       protocol: TCP
       name: hpv
   selector:
