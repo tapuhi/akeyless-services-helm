@@ -30,6 +30,16 @@ spec:
             - containerPort: {{ .port }}
               name: {{ .name }}
             {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: web-ui
+{{- toYaml .Values.livenessProbe | trim | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: web-ui
+{{- toYaml .Values.readinessProbe | trim | nindent 12 }}
           volumeMounts:
           {{- range .Values.persistence.volumes }}
             - name: {{ .name | title | lower }}
