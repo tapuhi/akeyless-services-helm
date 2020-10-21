@@ -7,6 +7,12 @@ In addition, please provide 2 PersistentVolumes with `persistentVolumeReclaimPol
 e.g when running on AWS with EKS:
 https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html
 
+#### Preqrequisites
+
+##### Horizonal Auto-Scaling
+Horizontal auto-scaling is based on the HorizonalPodAutoscaler object.  
+For it to work properly, Kubernetes metrics server must be installed in the cluster - https://github.com/kubernetes-sigs/metrics-server
+
 ## Installing
 
 The `values.yaml` file holds default values, replace the values with the ones from your environment where needed.  
