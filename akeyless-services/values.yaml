@@ -70,7 +70,9 @@ resources: {}
 
 HPA:
   # Set the below to false in case you do not want to add Horizontal Pod AutoScaling to the StatefulSet (not recommended)
-  enabled: true
+  # Note that metrics server must be installed for this to work:
+  # https://github.com/kubernetes-sigs/metrics-server
+  enabled: false
   minReplicas: 1
   maxReplicas: 14
   cpuAvgUtil: 50
