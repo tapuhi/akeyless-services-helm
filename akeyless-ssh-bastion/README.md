@@ -27,6 +27,13 @@ to a reasonable value.
 e.g when running on AWS with ELB:
 https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html?icmpid=docs_elb_console
 
+### Preqrequisites
+
+#### Horizonal Auto-Scaling
+Horizontal auto-scaling is based on the HorizonalPodAutoscaler object.  
+For it to work properly, Kubernetes metrics server must be installed in the cluster - https://github.com/kubernetes-sigs/metrics-server
+
+
 ## Installing the Chart
 
 The `values.yaml` file holds default values, replace the values with the ones from your environment where needed.  
