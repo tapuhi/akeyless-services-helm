@@ -10,7 +10,7 @@ updateStrategy: RollingUpdate
 image:
   repository: akeyless/ssh-proxy
   pullPolicy: Always
-  tag: 0.5.0
+  tag: latest
   dockerRepositoryCreds:
 
 containerName: "ssh-proxy"
