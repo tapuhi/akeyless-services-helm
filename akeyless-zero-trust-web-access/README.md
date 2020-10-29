@@ -9,6 +9,16 @@ $ cd akeyless-zero-trust-web-access
 $ helm install my-release .
 ```
 
+## Preparation
+
+### Network
+When using Embedded browser session behind load balancer such as ELB, the session can be closed due to **idle connection timeout**, so its advise to increase it
+to a reasonable high value, or event unlimited.
+
+e.g when running on AWS with ELB:
+https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html?icmpid=docs_elb_console
+
+
 ### Preqrequisites
 
 #### Horizonal Auto-Scaling

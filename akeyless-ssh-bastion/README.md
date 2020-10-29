@@ -21,8 +21,8 @@ e.g when running on AWS with EKS:
 https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html
 
 ### Network
-When using SSH sessions behind load balancer such as ELB, the session can be closed due to **idle connection timeout**, so its avdise to increase it
-to a reasonable value.
+When using SSH sessions behind load balancer such as ELB, the session can be closed due to **idle connection timeout**, so its advise to increase it
+to a reasonable high value, or event unlimited.
 
 e.g when running on AWS with ELB:
 https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html?icmpid=docs_elb_console
