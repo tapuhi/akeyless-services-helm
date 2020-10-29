@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-worker-deployment
+  namespace: {{ .Release.Namespace }}
+  labels:
+        {{- include "akeyless-zero-web-access.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: web-worker
+  replicas: {{ .Values.webWorker.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: web-worker
+    spec:
+      volumes:
+        - name: configmap-policies
+          configMap:
+            name: {{ $.Release.Name }}-cm-web-policies
+        - name: dshm
+          emptyDir:
+            medium: Memory
+      containers:
+        - name: {{ .Values.webWorker.containerName }}
+          image: "{{ .Values.webWorker.image.repository }}:{{ .Values.webWorker.image.tag }}"
+          imagePullPolicy: {{ .Values.webWorker.image.pullPolicy }}
+          ports:
+            - containerPort: 5800
+              name: web
+            - containerPort: 9090
+              name: agent
+          env:
+            - name: WEB_DISPATCHER_SERVICE_DNS
+              value: {{ include "akeyless-zero-web-access.fullname" . }}-dispatcher
+          volumeMounts:
+          - name: dshm
+            mountPath: /dev/shm
+          - name: configmap-policies
+            mountPath: /usr/lib/firefox/distribution
+          resources:
+{{- toYaml .Values.webWorker.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /healthy
+              port: agent
+{{- toYaml .Values.webWorker.livenessProbe | trim | nindent 12 }}

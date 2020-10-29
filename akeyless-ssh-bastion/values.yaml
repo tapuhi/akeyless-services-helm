@@ -1,4 +1,4 @@
-# Default values for akeyless-services.
+# Default values for akeyless-ssh-bastion.
 
 replicaCount: 1
 

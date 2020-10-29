@@ -1,0 +1,140 @@
+# Default values for akeyless-zero-trust-web-access.
+
+image:
+  dockerRepositoryCreds:
+
+dispatcher:
+  replicaCount: 1
+  image:
+    repository: akeyless/zero-trust-web-dispatcher
+    pullPolicy: Always
+    tag: latest
+
+  containerName: "web-dispatcher"
+
+  service:
+    # Remove the {} and add any needed annotations regarding your LoadBalancer implementation
+    annotations: {}
+    type: LoadBalancer
+    port: 9000
+
+  resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+     limits:
+       memory: 1Gi
+     requests:
+       cpu: 1000m
+       memory: 1Gi
+
+  livenessProbe:
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+    periodSeconds: 10
+    failureThreshold: 6
+    successThreshold: 1
+
+  readinessProbe:
+    initialDelaySeconds: 5
+    timeoutSeconds: 3
+    periodSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+
+  config:
+    akeyless:
+  #  akeyless: |
+  #    https://rest.akeyless.io
+  #    cmd=auth&access-id=p-non_privileged&access-key=key_with_list_only
+  #    cmd=auth&access-id=p-privileged&access-key=key_with_read_permissions
+
+
+webWorker:
+  replicaCount: 5
+  image:
+    repository: akeyless/zero-trust-web-worker
+    pullPolicy: Always
+    tag: latest
+
+  containerName: "web-worker"
+
+  service:
+    # Remove the {} and add any needed annotations regarding your LoadBalancer implementation
+    annotations: {}
+    port: 5800
+
+  resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+     limits:
+       memory: 2Gi
+     requests:
+       cpu: 1000m
+       memory: 2Gi
+
+  livenessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 3
+    failureThreshold: 1
+    successThreshold: 1
+
+#  readinessProbe:
+#    initialDelaySeconds: 5
+#    periodSeconds: 2
+#    failureThreshold: 1
+#    successThreshold: 1
+#  timeoutSeconds: 5
+
+  config:
+    policies: |
+        {
+          "policies": {
+            "BlockAboutConfig": true,
+            "BlockAboutAddons": true,
+            "BlockAboutProfiles": true,
+            "BlockAboutSupport": true,
+            "DisableDeveloperTools": true,
+            "DisableFirefoxAccounts": true,
+            "DisablePasswordReveal": true,
+            "DisablePrivateBrowsing": true,
+            "DisableProfileImport": true,
+            "DisableSafeMode": true,
+            "OfferToSaveLogins": false,
+            "OfferToSaveLoginsDefault": false,
+            "PasswordManagerEnabled": false,
+            "Proxy": {
+              "Mode": "none",
+              "Locked": true
+            },
+            "Preferences": {},
+            "WebsiteFilter": {
+              "Block": [
+                "<all_urls>"
+              ],
+              "Exceptions": [
+                "https://*.akeyless.io/*",
+                "https://*.okta.com/*"
+              ]
+            }
+          }
+        }
+
+
+
+HPA:
+  # Set the below to false in case you do not want to add Horizontal Pod AutoScaling to the StatefulSet (not recommended)
+  enabled: true
+  dispatcher:
+    minReplicas: 1
+    maxReplicas: 14
+    cpuAvgUtil: 50
+    memAvgUtil: 50
+  webWorker:
+    minReplicas: 3
+    maxReplicas: 14
+    cpuAvgUtil: 50
+    memAvgUtil: 50

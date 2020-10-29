@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-dispatcher-deployment
+  namespace: {{ .Release.Namespace }}
+  labels:
+        {{- include "akeyless-zero-web-access.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: dispatcher
+  replicas: {{ .Values.dispatcher.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: dispatcher
+    spec:
+      volumes:
+        - name: ng-config
+          emptyDir: {}
+        - name: configmap-akeyless
+          configMap:
+            name: {{ $.Release.Name }}-cm-akeyless
+      initContainers:
+        # Since k8s 1.9.4, config maps mount read-only volumes. Since the Docker image also writes to the config file,
+        # the file must be mounted as read-write. We use init containers to copy from the config map read-only
+        # path, to a read-write path
+        - name: bootstrap
+          image: busybox:1.30.1
+          imagePullPolicy: IfNotPresent
+          command: ['sh']
+          args:
+            - "-c"
+            - |
+              set -ex
+              [ "$(ls /configmap_akeyless)" ] && cp /configmap_akeyless/* /etc/akeyless
+              echo {{ include "akeyless-zero-web-access.fullname" . }} > /etc/akeyless/service-dns
+          volumeMounts:
+            - name: configmap-akeyless
+              mountPath: /configmap_akeyless
+            - name: ng-config
+              mountPath: /etc/akeyless
+      imagePullSecrets:
+        - name: akeyless-docker-hub
+      containers:
+        - name: {{ .Values.dispatcher.containerName }}
+          image: "{{ .Values.dispatcher.image.repository }}:{{ .Values.dispatcher.image.tag }}"
+          imagePullPolicy: {{ .Values.dispatcher.image.pullPolicy }}
+{{/*          imagePullPolicy: Never*/}}
+          ports:
+            - containerPort: 9000
+              name: web
+            - containerPort: 12411
+              name: akl
+          env:
+            - name: WEB_WORKER_SERVICE_DNS
+              value: {{ include "akeyless-zero-web-access.fullname" . }}
+          volumeMounts:
+            - name: configmap-akeyless
+              mountPath: /configmap_conf
+            - name: ng-config
+              mountPath: /etc/akeyless
+          resources:
+{{- toYaml .Values.dispatcher.resources | nindent 12 }}
+          livenessProbe:
+            tcpSocket:
+              port: 9000
+{{- toYaml .Values.dispatcher.livenessProbe | trim | nindent 12 }}
+          readinessProbe:
+            tcpSocket:
+              port: 9000
+{{- toYaml .Values.dispatcher.readinessProbe | trim | nindent 12 }}

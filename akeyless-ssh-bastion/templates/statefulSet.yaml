@@ -90,4 +90,4 @@ spec:
             - name: creds
               mountPath: /var/akeyless/creds
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+{{- toYaml .Values.resources | nindent 12 }}

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-cm-akeyless
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ $.Values.dispatcher.containerName }}
+    chart: {{ $.Chart.Name }}
+data:
+  akeyless_config_file: |
+{{ required "A valid .Values.dispatcher.config.akeyless entry required!" .Values.dispatcher.config.akeyless | indent 4 }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-cm-web-policies
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ $.Values.webWorker.containerName }}
+    chart: {{ $.Chart.Name }}
+data:
+  policies.json: |
+{{ required "A valid .Values.webWorker.config.policies entry required!" .Values.webWorker.config.policies | indent 4 }}
+
