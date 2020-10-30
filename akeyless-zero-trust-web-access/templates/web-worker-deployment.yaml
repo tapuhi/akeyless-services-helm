@@ -34,6 +34,8 @@ spec:
           env:
             - name: WEB_DISPATCHER_SERVICE_DNS
               value: {{ include "akeyless-zero-web-access.fullname" . }}-dispatcher
+            - name: FF_PREF_HOMEPAGE
+              value: browser.startup.homepage=\"https://www.akeyless.io\"
           volumeMounts:
           - name: dshm
             mountPath: /dev/shm
