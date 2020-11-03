@@ -34,7 +34,7 @@ spec:
             - |
               set -ex
               [ "$(ls /configmap_akeyless)" ] && cp /configmap_akeyless/* /etc/akeyless
-              echo {{ include "akeyless-zero-web-access.fullname" . }} > /etc/akeyless/service-dns
+              echo {{ include "akeyless-zero-web-access.fullname" . }}-discovery > /etc/akeyless/service-dns
           volumeMounts:
             - name: configmap-akeyless
               mountPath: /configmap_akeyless
@@ -46,7 +46,6 @@ spec:
         - name: {{ .Values.dispatcher.containerName }}
           image: "{{ .Values.dispatcher.image.repository }}:{{ .Values.dispatcher.image.tag }}"
           imagePullPolicy: {{ .Values.dispatcher.image.pullPolicy }}
-{{/*          imagePullPolicy: Never*/}}
           ports:
             - containerPort: 9000
               name: web
@@ -54,7 +53,7 @@ spec:
               name: akl
           env:
             - name: WEB_WORKER_SERVICE_DNS
-              value: {{ include "akeyless-zero-web-access.fullname" . }}
+              value: {{ include "akeyless-zero-web-access.fullname" . }}-discovery
           volumeMounts:
             - name: configmap-akeyless
               mountPath: /configmap_conf
