@@ -10,6 +10,10 @@ $ cd akeyless-ssh-bastion
 $ helm install my-release .
 ```
 
+## Introduction
+This chart bootstraps a Akeyless-SSH-Bastion deployment on a Kubernetes cluster using the Helm package manager.
+
+
 ## Preparation
 
 ### Storage
@@ -27,7 +31,7 @@ to a reasonable high value, or event unlimited.
 e.g when running on AWS with ELB:
 https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html?icmpid=docs_elb_console
 
-### Preqrequisites
+### Prerequisites
 
 #### Horizonal Auto-Scaling
 Horizontal auto-scaling is based on the HorizonalPodAutoscaler object.  

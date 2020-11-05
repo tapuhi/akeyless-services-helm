@@ -61,3 +61,14 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Get the Ingress TLS secret.
+*/}}
+{{- define "akeyless-zero-web-access.ingressSecretTLSName" -}}
+    {{- if .Values.dispatcher.ingress.existingSecret -}}
+        {{- printf "%s" .Values.dispatcher.ingress.existingSecret -}}
+    {{- else -}}
+        {{- printf "%s-tls" .Values.dispatcher.ingress.hostname -}}
+    {{- end -}}
+{{- end -}}

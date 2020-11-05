@@ -9,6 +9,11 @@ $ cd akeyless-zero-trust-web-access
 $ helm install my-release .
 ```
 
+## Introduction
+This chart bootstraps a Akeyless-Zero-Trust-Web-Access deployment on a Kubernetes cluster using the Helm package manager.
+This chart has been tested to work with [NGINX Ingress](https://kubernetes.github.io/ingress-nginx/) and [cert-manager](https://cert-manager.io/).
+
+
 ## Preparation
 
 ### Network
@@ -19,7 +24,7 @@ e.g when running on AWS with ELB:
 https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html?icmpid=docs_elb_console
 
 
-### Preqrequisites
+### Prerequisites
 
 #### Horizonal Auto-Scaling
 Horizontal auto-scaling is based on the HorizonalPodAutoscaler object.  
@@ -72,7 +77,13 @@ The following table lists the configurable parameters of the Zero-Trust-Web-Acce
 | `dispatcher.service.annotations`          | Dispatcher service extra annotations                                                                                 | `{}`                                                         |
 | `webWorker.service.port`                  | Web Worker service port                                                                                              | `5800`                                                       |
 | `webWorker.service.annotations`           | Web Worker service extra annotations                                                                                 | `{}`                                                         |
-
+| `dispatcher.ingress.enabled`              | Enable ingress resource                                                                                              | `false`                                                      |
+| `dispatcher.ingress.path`                 | Path for the default host                                                                                            | `/`                                                          |
+| `dispatcher.ingress.certManager`          | Add annotations for cert-manager                                                                                     | `false`                                                      |
+| `dispatcher.ingress.hostname`             | Default host for the ingress resource                                                                                | `aztwa.local`                                                |
+| `dispatcher.ingress.annotations`          | Ingress annotations                                                                                                  | `[]`                                                         |
+| `dispatcher.ingress.tls`                  | Enable TLS configuration for the hostname defined at `ingress.hostname` parameter                                    | `false`                                                      |
+| `dispatcher.ingress.existingSecret`       | Existing secret for the Ingress TLS certificate                                                                      | `nil`                                                        |  
 
 ### HPA parameters
 

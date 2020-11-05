@@ -8,7 +8,11 @@ metadata:
   annotations:
 {{- toYaml .Values.dispatcher.service.annotations | nindent 4 }}
 spec:
+{{- if .Values.dispatcher.ingress.enabled }}
+  type: ClusterIP
+{{- else }}
   type: {{ .Values.dispatcher.service.type }}
+{{- end }}
   ports:
     - name: http
       port: {{ .Values.dispatcher.service.port }}
