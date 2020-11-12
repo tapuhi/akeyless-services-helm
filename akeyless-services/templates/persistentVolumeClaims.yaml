@@ -9,7 +9,7 @@ metadata:
     chart: {{ $.Chart.Name }}
 spec:
   accessModes:
-    - ReadWriteMany
+    {{ $.Values.persistence.accessModes | indent 4 }}
   storageClassName: {{ required "A valid .Values.persistence.volumes.storageClassName entry required!" .storageClassName }}
   resources:
     requests:

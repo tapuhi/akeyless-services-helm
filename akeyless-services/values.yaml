@@ -39,7 +39,8 @@ readinessProbe:
 
 # Akeyless requires data persistence to be shared within all pods in the cluster
 # Currently only ReadWriteMany is supported
-# accessMode: ReadWriteMany
+# accessMode: ReadWriteMany (AWS)
+# accessMode: ReadWriteOnce + ReadOnlyMany (GCP)
 # Change the below values according to your environment except for the hostPath values
 persistence:
   volumes:
@@ -55,6 +56,15 @@ persistence:
       size: 2Gi
       mountPath: /root/.akeyless
       fsId: "fs-678def90"
+
+# AWS
+  accessModes: |
+    - ReadWriteMany
+
+# GCP
+#  accessModes: |
+#    - ReadWriteOnce
+#    - ReadOnlyMany
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
