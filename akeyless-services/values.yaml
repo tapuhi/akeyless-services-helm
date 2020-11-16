@@ -58,13 +58,13 @@ persistence:
       fsId: "fs-678def90"
 
 # AWS
-  accessModes: |
-    - ReadWriteMany
+  accessModes:
+  - ReadWriteMany
 
 # GCP
-#  accessModes: |
-#    - ReadWriteOnce
-#    - ReadOnlyMany
+#  accessModes:
+#  - ReadWriteOnce
+#  - ReadOnlyMany
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
