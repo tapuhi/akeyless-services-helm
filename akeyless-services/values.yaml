@@ -78,6 +78,9 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+env: {}
+  # Any environment variables needed
+
 HPA:
   # Set the below to false in case you do not want to add Horizontal Pod AutoScaling to the StatefulSet (not recommended)
   # Note that metrics server must be installed for this to work:
