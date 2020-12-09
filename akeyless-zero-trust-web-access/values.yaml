@@ -84,6 +84,9 @@ dispatcher:
   #    cmd=auth&access-id=p-non_privileged&access-key=key_with_list_only
   #    cmd=auth&access-id=p-privileged&access-key=key_with_read_permissions
 
+   # A comma separated list of allowed access ID's
+    allowedAccessIDs:
+
 
 webWorker:
   replicaCount: 5
@@ -111,8 +114,6 @@ webWorker:
        memory: 2Gi
 
   livenessProbe:
-    initialDelaySeconds: 5
-    periodSeconds: 3
     failureThreshold: 1
     successThreshold: 1
 

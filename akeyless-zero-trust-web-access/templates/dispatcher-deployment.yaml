@@ -35,6 +35,9 @@ spec:
               set -ex
               [ "$(ls /configmap_akeyless)" ] && cp /configmap_akeyless/* /etc/akeyless
               echo {{ include "akeyless-zero-web-access.fullname" . }}-discovery > /etc/akeyless/service-dns
+{{- if .Values.dispatcher.config.allowedAccessIDs }}
+              echo {{ .Values.dispatcher.config.allowedAccessIDs }} > /etc/akeyless/allowed_access_ids
+{{- end }}
           volumeMounts:
             - name: configmap-akeyless
               mountPath: /configmap_akeyless

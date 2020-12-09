@@ -47,4 +47,6 @@ spec:
             httpGet:
               path: /healthy
               port: agent
+            initialDelaySeconds: 10
+            periodSeconds: 10
 {{- toYaml .Values.webWorker.livenessProbe | trim | nindent 12 }}
