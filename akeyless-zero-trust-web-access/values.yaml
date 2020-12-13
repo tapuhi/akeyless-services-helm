@@ -87,6 +87,9 @@ dispatcher:
    # A comma separated list of allowed access ID's
     allowedAccessIDs:
 
+   # When false, only requests with preemptive JWT auth will be accepted
+    allowedInternalAuth: "true"
+
 
 webWorker:
   replicaCount: 5

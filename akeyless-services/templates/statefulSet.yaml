@@ -33,12 +33,12 @@ spec:
           livenessProbe:
             httpGet:
               path: /status
-              port: web-ui
+              port: 18888
 {{- toYaml .Values.livenessProbe | trim | nindent 12 }}
           readinessProbe:
             httpGet:
               path: /status
-              port: web-ui
+              port: 18888
 {{- toYaml .Values.readinessProbe | trim | nindent 12 }}
           volumeMounts:
           {{- range .Values.persistence.volumes }}
@@ -46,6 +46,6 @@ spec:
               mountPath: {{ .mountPath | quote }}
           {{- end }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+{{- toYaml .Values.resources | nindent 12 }}
           env:
-            {{- toYaml .Values.env | indent 12 }}
+{{- toYaml .Values.env | nindent 12 }}

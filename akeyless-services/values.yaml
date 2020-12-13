@@ -43,19 +43,19 @@ readinessProbe:
 # accessMode: ReadWriteOnce + ReadOnlyMany (GCP)
 # Change the below values according to your environment except for the hostPath values
 persistence:
-  volumes:
-    - name: akeyless-conf
-      storageClassName: efs-sc
-      storageClassDriver: efs.csi.aws.com
-      size: 2Gi
-      mountPath: /var/akeyless
-      fsId: "fs-123abc45"
-    - name: akeyless-profiles
-      storageClassName: efs-sc
-      storageClassDriver: efs.csi.aws.com
-      size: 2Gi
-      mountPath: /root/.akeyless
-      fsId: "fs-678def90"
+  volumes: {}
+#    - name: akeyless-conf
+#      storageClassName: efs-sc
+#      storageClassDriver: efs.csi.aws.com
+#      size: 2Gi
+#      mountPath: /var/akeyless
+#      fsId: "fs-123abc45"
+#    - name: akeyless-profiles
+#      storageClassName: efs-sc
+#      storageClassDriver: efs.csi.aws.com
+#      size: 2Gi
+#      mountPath: /root/.akeyless
+#      fsId: "fs-678def90"
 
 # AWS
   accessModes:
