@@ -84,13 +84,7 @@ The following table lists the configurable parameters of the Zero-Trust-Bastion 
 | `config.rdpRecord.s3.region`              | AWS S3 bucket region                                                                                                 | `nil`                                                        |
 | `config.rdpRecord.s3.awsAccessKeyId`      | AWS Access Key ID, not required if using EC2 IAM roles                                                               | `nil`                                                        |
 | `config.rdpRecord.s3.awsSecretAccessKey`  | AWS Secret Access Key, not required if using EC2 IAM roles                                                           | `nil`                                                        |
-    
-### Secret    
-
-| Parameter                                 | Description                                                                                                          | Default                                                      |
-|-------------------------------------------|----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
-| `existingSecret`                          | Specifies an existing secret to be used for bastion, management AWS credentials                                      | `nil`                                                        |
-
+| `config.rdpRecord.existingSecret`         | Specifies an existing secret to be used for bastion, management AWS credentials                                      | `nil`                                                        |
 
 ### HPA parameters
 

@@ -81,8 +81,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-# Specifies an existing secret to be used for bastion, management AWS credentials
-existingSecret: ""
+
 
 config:
   rdpRecord:
@@ -95,6 +94,9 @@ config:
 # optional, run with explicit credentials (without AWS IAM roles)
       awsAccessKeyId: ""
       awsSecretAccessKey: ""
+
+    # Specifies an existing secret to be used for bastion, management AWS credentials
+    existingSecret: ""
 
 HPA:
   # Set the below to false in case you do not want to add Horizontal Pod AutoScaling to the StatefulSet (not recommended)
