@@ -32,7 +32,7 @@ spec:
               value: {{ required "A valid .Values.config.rdpRecording.s3.bucketName required!" .Values.config.rdpRecord.s3.bucketName }}
             - name: AWS_S3_PREFIX
               value: {{ required "A valid .Values.config.rdpRecording.s3.bucketPrefix required!" .Values.config.rdpRecord.s3.bucketPrefix }}
-  {{- if or (.Values.config.rdpRecord.s3.awsAccessKeyId) (eq .Values.existingSecret) }}
+  {{- if or ( .Values.config.rdpRecord.s3.awsAccessKeyId) ( .Values.config.rdpRecord.existingSecret) }}
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:

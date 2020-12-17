@@ -10,12 +10,12 @@ metadata:
   {{- toYaml .Values.service.annotations | nindent 4 }}
 spec:
   {{- if .Values.ingress.enabled }}
-  type: ClusterIP
+  type: NodePort
   {{- else }}
   type: {{ required "A valid .Values.service.type entry required!" .Values.service.type }}
   {{- end }}
   ports:
-    - name: http
+    - name: api
       port: {{ .Values.service.port }}
       targetPort: api
       protocol: TCP
