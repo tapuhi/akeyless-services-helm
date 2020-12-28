@@ -90,7 +90,6 @@ dispatcher:
    # When false, only requests with preemptive JWT auth will be accepted
     allowedInternalAuth: "true"
 
-
 webWorker:
   replicaCount: 5
   image:
@@ -160,6 +159,17 @@ webWorker:
           }
         }
 
+
+
+persistence: {}
+#  shareStorageVolume:
+#    name: share-storage
+#    storageClassName:
+#    accessModes:
+#      - ReadWriteMany
+#    annotations: {}
+#    size: 2Gi
+#    matchLabels:
 
 
 HPA:

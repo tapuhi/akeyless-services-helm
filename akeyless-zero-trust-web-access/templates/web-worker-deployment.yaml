@@ -22,6 +22,9 @@ spec:
         - name: dshm
           emptyDir:
             medium: Memory
+        - name: {{ .Values.persistence.shareStorageVolume.name | title | lower }}
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" $.Release.Name .Values.persistence.shareStorageVolume.name | title | lower }}
       containers:
         - name: {{ .Values.webWorker.containerName }}
           image: "{{ .Values.webWorker.image.repository }}:{{ .Values.webWorker.image.tag }}"
@@ -36,11 +39,15 @@ spec:
               value: {{ include "akeyless-zero-web-access.fullname" . }}-disc-disp
             - name: FF_PREF_HOMEPAGE
               value: browser.startup.homepage=\"https://www.akeyless.io\"
+            - name: DES_DOWNLOAD_PATH
+              value: /etc/shared/download
           volumeMounts:
           - name: dshm
             mountPath: /dev/shm
           - name: configmap-policies
             mountPath: /usr/lib/firefox/distribution
+          - name: {{ .Values.persistence.shareStorageVolume.name | title | lower }}
+            mountPath: /etc/shared
           resources:
 {{- toYaml .Values.webWorker.resources | nindent 12 }}
           livenessProbe:
