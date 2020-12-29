@@ -1,4 +1,5 @@
 ---
+{{ if and .Values.persistence .Values.persistence.shareStorageVolume }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -22,4 +23,5 @@ spec:
   #    # To make sure we match the claim with the exact volume, match the label
     matchLabels:
 {{- toYaml $.Values.persistence.shareStorageVolume.matchLabels | nindent 6 }}
+{{- end }}
 {{- end }}

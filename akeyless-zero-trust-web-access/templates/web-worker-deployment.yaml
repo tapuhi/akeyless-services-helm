@@ -22,9 +22,11 @@ spec:
         - name: dshm
           emptyDir:
             medium: Memory
+        {{ if and .Values.persistence .Values.persistence.shareStorageVolume }}
         - name: {{ .Values.persistence.shareStorageVolume.name | title | lower }}
           persistentVolumeClaim:
             claimName: {{ printf "%s-%s" $.Release.Name .Values.persistence.shareStorageVolume.name | title | lower }}
+        {{ end }}
       containers:
         - name: {{ .Values.webWorker.containerName }}
           image: "{{ .Values.webWorker.image.repository }}:{{ .Values.webWorker.image.tag }}"
@@ -46,8 +48,10 @@ spec:
             mountPath: /dev/shm
           - name: configmap-policies
             mountPath: /usr/lib/firefox/distribution
+          {{ if and .Values.persistence .Values.persistence.shareStorageVolume }}
           - name: {{ .Values.persistence.shareStorageVolume.name | title | lower }}
             mountPath: /etc/shared
+          {{ end }}
           resources:
 {{- toYaml .Values.webWorker.resources | nindent 12 }}
           livenessProbe:
