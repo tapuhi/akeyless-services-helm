@@ -31,3 +31,8 @@ data:
   logand.conf: |
 {{ required "A valid .Values.config.logForwording.logand entry required!" .Values.config.logForwording.settings | indent 4 }}
 {{- end }}
+
+{{- if .Values.config.akeylessConfigFile }}
+  akeyless_config_file: |
+{{ .Values.config.akeylessConfigFile | indent 4 }}
+{{- end }}

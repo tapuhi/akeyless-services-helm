@@ -5,6 +5,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ printf "%s-%s" $.Release.Name .name | title | lower }}
   namespace: {{ $.Release.Namespace }}
+{{- if .annotations }}
+  annotations:
+  {{- toYaml .annotations | nindent 4 }}
+{{- end }}
   labels:
     app: {{ $.Values.containerName }}
     chart: {{ $.Chart.Name }}
@@ -15,4 +19,10 @@ spec:
   resources:
     requests:
       storage: {{ required "A valid .Values.service.size entry required!" .size }}
+{{- if .matchLabels }}
+  selector:
+    # To make sure we match the claim with the exact volume, match the label
+    matchLabels:
+{{- toYaml .matchLabels | nindent 6 }}
+{{- end }}
 {{- end }}

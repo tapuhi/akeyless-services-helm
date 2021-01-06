@@ -44,6 +44,10 @@ persistence:
 #        storageClassDriver: efs.csi.aws.com
 #        size: 2Gi
 #        mountPath: /var/run/requests
+#        annotations:
+#          volume.beta.kubernetes.io/storage-class: ""
+#        matchLabels:
+#          usage: "ssh-bastion-pv"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -69,6 +73,12 @@ config:
   CAPublicKey:
 #  CAPublicKey: |
 #    ssh-rsa AAAAAAA......
+
+  akeylessConfigFile:
+#  akeylessConfigFile: |
+#    https://rest.akeyless.io
+#    cmd=auth&access-id=p-non_privileged&access-key=key_with_list_only
+#    cmd=auth&access-id=p-privileged&access-key=key_with_read_permissions
 
   sessionTermination:
     enabled: false

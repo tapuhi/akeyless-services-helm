@@ -63,6 +63,10 @@ spec:
         - name: {{ .Values.containerName }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN"]
           ports:
           - containerPort: 22
             name: ssh
