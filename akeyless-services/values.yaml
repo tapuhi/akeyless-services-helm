@@ -78,7 +78,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-env: {}
+env: []
   # Any environment variables needed
 
 HPA:
