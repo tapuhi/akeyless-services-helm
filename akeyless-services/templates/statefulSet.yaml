@@ -48,4 +48,31 @@ spec:
           resources:
 {{- toYaml .Values.resources | nindent 12 }}
           env:
-{{- toYaml .Values.env | nindent 12 }}
+          {{- if .Values.akeylessUserAuth.adminAccessId }}
+            - name: ADMIN_ACCESS_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Release.Name }}-conf-secret
+                  key: ADMIN_ACCESS_ID
+          {{- end }}
+          {{- if .Values.akeylessUserAuth.adminAccessKey }}
+            - name: ADMIN_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Release.Name }}-conf-secret
+                  key: ADMIN_ACCESS_KEY
+          {{- end }}
+          {{- if .Values.akeylessUserAuth.adminPassword }}
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Release.Name }}-conf-secret
+                  key: ADMIN_PASSWORD
+          {{- end }}
+            - name: CLUSTER_NAME
+              value: {{ .Values.akeylessUserAuth.clusterName }}
+            - name: CONFIG_PROTECTION_KEY_NAME
+              value: {{ .Values.akeylessUserAuth.configProtectionKeyName }}
+          {{- if .Values.env }}
+  {{- toYaml .Values.env | nindent 12 }}
+          {{- end }}

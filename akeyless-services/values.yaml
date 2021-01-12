@@ -42,24 +42,17 @@ readinessProbe:
 # accessMode: ReadWriteMany (AWS)
 # accessMode: ReadWriteOnce + ReadOnlyMany (GCP)
 # Change the below values according to your environment except for the hostPath values
-persistence:
-  volumes: {}
-#    - name: akeyless-conf
-#      storageClassName: efs-sc
-#      storageClassDriver: efs.csi.aws.com
-#      size: 2Gi
-#      mountPath: /var/akeyless
-#      fsId: "fs-123abc45"
-#    - name: akeyless-profiles
-#      storageClassName: efs-sc
-#      storageClassDriver: efs.csi.aws.com
-#      size: 2Gi
-#      mountPath: /root/.akeyless
-#      fsId: "fs-678def90"
+persistence: {}
+#  volumes:
+#   - name: akeyless-profiles
+#     storageClassName: efs-sc
+#     storageClassDriver: efs.csi.aws.com
+#     size: 2Gi
+#     mountPath: /root/.akeyless
 
 # AWS
-  accessModes:
-  - ReadWriteMany
+#  accessModes:
+#  - ReadWriteMany
 
 # GCP
 #  accessModes:
@@ -79,7 +72,14 @@ resources: {}
   #   memory: 128Mi
 
 env: []
-  # Any environment variables needed
+
+akeylessUserAuth:
+  adminAccessId:
+  adminAccessKey:
+  adminPassword:
+  clusterName:
+  configProtectionKeyName: 
+
 
 HPA:
   # Set the below to false in case you do not want to add Horizontal Pod AutoScaling to the StatefulSet (not recommended)
