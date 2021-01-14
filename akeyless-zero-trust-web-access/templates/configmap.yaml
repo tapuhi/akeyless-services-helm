@@ -23,3 +23,39 @@ data:
   policies.json: |
 {{ required "A valid .Values.webWorker.config.policies entry required!" .Values.webWorker.config.policies | indent 4 }}
 
+
+{{- if .Values.dlp.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-cm-dlp-conf
+  namespace: {{ .Release.Namespace }}
+  labels:
+    chart: {{ $.Chart.Name }}
+data:
+  dlp.conf: |
+    host={{ .Values.dlp.config.hostAddress | quote }}
+    path_prefix={{ .Values.dlp.config.pathPrefix | quote }}
+    mode={{ .Values.dlp.config.mode | quote }}
+    mode={{ .Values.dlp.config.logLevel | quote }}
+    enable_file_watch=true
+{{ if .Values.dlp.audit }}
+  logand.conf: |
+{{ .Values.dlp.audit | indent 4 }}
+{{- end }}
+{{- end }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-cm-akeyless-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    chart: {{ $.Chart.Name }}
+data:
+{{ if .Values.dispatcher.config.logForward }}
+  logand.conf: |
+{{ .Values.dispatcher.config.logForward | indent 4 }}
+{{- end }}

@@ -89,6 +89,19 @@ dispatcher:
 
    # When false, only requests with preemptive JWT auth will be accepted
     allowedInternalAuth: "true"
+   # When true, dispatcher session cookie can be send with non encrypted requests (HTTP)
+    disableSecureCookie: "false"
+
+    logForward:
+#    # audit configuration for log forwarding, currently support several technologies: https://akeyless.readme.io/docs/ssh-log-forwarding
+#    #splunk example
+#    #  logForward: |
+#    #    target_log_type="splunk"
+#    #    target_splunk_sourcetype=""
+#    #    target_splunk_source=""
+#    #    target_splunk_index=""
+#    #    target_splunk_token=""
+#    #    target_splunk_url=""
 
 webWorker:
   replicaCount: 5
@@ -159,6 +172,25 @@ webWorker:
           }
         }
 
+dlp:
+  enabled: false
+  config:
+    hostAddress: ""
+    # host/{pathPrefix}
+    pathPrefix: ""
+    # FORCING or LEARNING
+    mode: ""
+    logLevel: "INFO"
+  audit:
+# audit configuration for log forwarding, currently support several technologies: https://akeyless.readme.io/docs/ssh-log-forwarding
+#splunk example
+#  audit: |
+#    target_log_type="splunk"
+#    target_splunk_sourcetype=""
+#    target_splunk_source=""
+#    target_splunk_index=""
+#    target_splunk_token=""
+#    target_splunk_url=""
 
 
 persistence: {}

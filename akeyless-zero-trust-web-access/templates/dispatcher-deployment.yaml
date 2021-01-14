@@ -16,11 +16,16 @@ spec:
         app: dispatcher
     spec:
       volumes:
+        - name: akeyless-config
+          emptyDir: {}
         - name: ng-config
           emptyDir: {}
         - name: configmap-akeyless
           configMap:
             name: {{ $.Release.Name }}-cm-akeyless
+        - name: configmap-akeyless-config
+          configMap:
+            name: {{ $.Release.Name }}-cm-akeyless-config
         {{ if and .Values.persistence .Values.persistence.shareStorageVolume }}
         - name: {{ .Values.persistence.shareStorageVolume.name | title | lower }}
           persistentVolumeClaim:
@@ -39,16 +44,22 @@ spec:
             - |
               set -ex
               [ "$(ls /configmap_akeyless)" ] && cp /configmap_akeyless/* /etc/akeyless
+              [ "$(ls /configmap_akeyless_config)" ] && cp /configmap_akeyless_config/* /var/akeyless/conf
               echo {{ include "akeyless-zero-web-access.fullname" . }}-discovery > /etc/akeyless/service-dns
               echo {{ .Values.dispatcher.config.allowedInternalAuth }} > /etc/akeyless/allowed_internal_auth
+              echo {{ .Values.dispatcher.config.disableSecureCookie }} > /etc/akeyless/disable_secure_cookie
 {{- if .Values.dispatcher.config.allowedAccessIDs }}
               echo {{ .Values.dispatcher.config.allowedAccessIDs }} > /etc/akeyless/allowed_access_ids
 {{- end }}
           volumeMounts:
             - name: configmap-akeyless
               mountPath: /configmap_akeyless
+            - name: configmap-akeyless-config
+              mountPath: /configmap_akeyless_config
             - name: ng-config
               mountPath: /etc/akeyless
+            - name: akeyless-config
+              mountPath: /var/akeyless/conf
       imagePullSecrets:
         - name: akeyless-docker-hub
       containers:
@@ -68,6 +79,8 @@ spec:
               mountPath: /configmap_conf
             - name: ng-config
               mountPath: /etc/akeyless
+            - name: akeyless-config
+              mountPath: /var/akeyless/conf
             {{ if and .Values.persistence .Values.persistence.shareStorageVolume }}
             - name: {{ .Values.persistence.shareStorageVolume.name | title | lower }}
               mountPath: /etc/shared

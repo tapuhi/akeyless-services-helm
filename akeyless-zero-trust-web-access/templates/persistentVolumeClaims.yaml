@@ -5,7 +5,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ printf "%s-%s" $.Release.Name .Values.persistence.shareStorageVolume.name | title | lower }}
   namespace: {{ .Release.Namespace }}
-{{- if .Values.dispatcher.ingress.annotations }}
+{{- if .Values.persistence.shareStorageVolume.annotations }}
   annotations:
     {{- toYaml .Values.persistence.shareStorageVolume.annotations | nindent 4 }}
 {{- end }}
