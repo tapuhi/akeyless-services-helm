@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ include "akeyless-services.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "akeyless-services.labels" . | nindent 4 }}
 spec:
@@ -69,10 +70,14 @@ spec:
                   name: {{ $.Release.Name }}-conf-secret
                   key: ADMIN_PASSWORD
           {{- end }}
+          {{- if .Values.akeylessUserAuth.clusterName }}
             - name: CLUSTER_NAME
               value: {{ .Values.akeylessUserAuth.clusterName }}
+          {{- end }}
+          {{- if .Values.akeylessUserAuth.configProtectionKeyName }}
             - name: CONFIG_PROTECTION_KEY_NAME
               value: {{ .Values.akeylessUserAuth.configProtectionKeyName }}
+          {{- end }}
           {{- if .Values.env }}
   {{- toYaml .Values.env | nindent 12 }}
           {{- end }}

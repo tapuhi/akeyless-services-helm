@@ -4,6 +4,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ printf "%s-%s" $.Release.Name .name | title | lower }}
+  namespace: {{ $.Release.Namespace | quote }}
   labels:
     app: {{ $.Values.containerName }}
     chart: {{ $.Chart.Name }}
