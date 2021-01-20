@@ -21,6 +21,10 @@ dispatcher:
     ##
     enabled: false
 
+    ## Set this to true in order to user aws ingress controller
+    ## This will also change the dispatcher server type to NodePort which is required for aws ingress controller
+    awsIngress: false
+
     annotations: {}
 # Example for Nginx ingress
 #    annotations:
