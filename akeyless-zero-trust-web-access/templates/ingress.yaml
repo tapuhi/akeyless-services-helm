@@ -22,7 +22,7 @@ spec:
       - path: {{ .Values.dispatcher.ingress.path }}
         backend:
          serviceName: {{ include "akeyless-zero-web-access.fullname" . }}-dispatcher
-         servicePort: web
+         servicePort: http
 {{- end }}
 {{- if .Values.dispatcher.ingress.tls }}
   tls:
