@@ -9,11 +9,7 @@ metadata:
 {{- toYaml .Values.dispatcher.service.annotations | nindent 4 }}
 spec:
 {{- if .Values.dispatcher.ingress.enabled }}
-  {{- if .Values.dispatcher.ingress.awsIngress }}
   type: NodePort
-  {{- else }}
-  type: ClusterIP
-  {{- end }}
 {{- else }}
   type: {{ .Values.dispatcher.service.type }}
 {{- end }}
